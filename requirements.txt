@@ -1,7 +1,7 @@
 alembic==1.4.2
 aniso8601==8.0.0
 appdirs==1.4.4
-apturl==0.5.2
+# apturl==0.5.2
 asn1crypto==0.24.0
 astroid==2.3.3
 blinker==1.4
