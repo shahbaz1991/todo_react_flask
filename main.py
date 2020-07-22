@@ -5,11 +5,8 @@ from flask_restful import Api,Resource
 from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate, MigrateCommand
 from werkzeug.security import generate_password_hash, check_password_hash
-#import logging
-# from flask_login import LoginManager, UserMixin
-#from flask_cors import CORS
 
-app=Flask(__name__)
+app=Flask(__name__,static_folder='./build',static_url_path='/')
 app.debug=True
 manager = Manager(app)
 app.config['SECRET_KEY']='THIS is my FLASK project'
@@ -20,8 +17,6 @@ ma=Marshmallow(app)
 api=Api(app)
 migrate=Migrate(app,db)
 manager.add_command('db',MigrateCommand)
-#login_manager= LoginManager(app)
-#CORS(app,resources={r"http://localhost:5000/todo/*":{"origin":"http://localhost:3000"}}')
 
 
 """@app.after_request
@@ -32,6 +27,9 @@ def after_request(response):
   response.headers.add('Access-Control-Allow-Credentials', 'true')
   return response"""
 
+app.route('/')
+def start():
+    return app.send_static_file('index.html')
 class User(db.Model):
     id=db.Column(db.Integer,primary_key=True)
     name=db.Column(db.String(50),nullable=False, unique=True)
