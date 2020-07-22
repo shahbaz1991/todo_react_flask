@@ -10,7 +10,7 @@ app=Flask(__name__,static_folder='./build',static_url_path='/')
 app.debug=True
 manager = Manager(app)
 # os.environ.get('SECRET_KEY')
-app.config['SECRET_KEY']=b'\xcf\x1c\xaa\xfb\x91\x92\x95q\xb7\xa7\xd4\xc4\x9e\xe9\xe0\x89''
+app.config['SECRET_KEY']=b'\xcf\x1c\xaa\xfb\x91\x92\x95q\xb7\xa7\xd4\xc4\x9e\xe9\xe0\x89'
 app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://sql12356392:HS1jA6Eysv@ sql12.freemysqlhosting.net/sql12356392'
 # 'mysql+pymysql://root:rootpassword@localhost/newtodo_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
