@@ -12,7 +12,7 @@ from flask_cors import CORS
 app=Flask(__name__,static_folder='./build',static_url_path='/')
 app.debug=True
 manager = Manager(app)
-cors = CORS(app, origin=['http://localhost:3000','https://git.heroku.com/flask-todo-initial.git/'])
+cors = CORS(app, origin=['http://localhost:3000','https://flask-todo-initial.herokuapp.com/'])
 #basedir=os.path.abspath(os.path.dirname(__file__))
 # os.environ.get('SECRET_KEY')
 app.config['SECRET_KEY']=os.environ.get('SECRET_KEY') or \
