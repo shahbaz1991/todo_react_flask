@@ -5,13 +5,22 @@ from flask_restful import Api,Resource
 from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate, MigrateCommand
 from werkzeug.security import generate_password_hash, check_password_hash
+import os
+from flask_cors import CORS
+
 
 app=Flask(__name__,static_folder='./build',static_url_path='/')
 app.debug=True
 manager = Manager(app)
+cors = CORS(app, origin=['http://localhost:3000','https://git.heroku.com/flask-todo-initial.git/'])
+#basedir=os.path.abspath(os.path.dirname(__file__))
 # os.environ.get('SECRET_KEY')
 app.config['SECRET_KEY']=b'\xcf\x1c\xaa\xfb\x91\x92\x95q\xb7\xa7\xd4\xc4\x9e\xe9\xe0\x89'
-app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://sql12356392:HS1jA6Eysv@ sql12.freemysqlhosting.net:3306/sql12356392'
+#b'\xcf\x1c\xaa\xfb\x91\x92\x95q\xb7\xa7\xd4\xc4\x9e\xe9\xe0\x89'
+app.config['SQLALCHEMY_DATABASE_URI']=os.environ.get('DATABASE_URL') or \
+                                    'mysql+pymysql://root:rootpassword@localhost/newtodo_db'
+
+#'mysql+pymysql://sql12356392:HS1jA6Eysv@ sql12.freemysqlhosting.net:3306/sql12356392'
 # 'mysql+pymysql://root:rootpassword@localhost/newtodo_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 db=SQLAlchemy(app)
@@ -23,7 +32,7 @@ manager.add_command('db',MigrateCommand)
 
 """@app.after_request
 def after_request(response):
-  response.headers.add('Access-Control-Allow-Origin', 'https://git.heroku.com/flask-todo-initial.git')
+  response.headers.add('Access-Control-Allow-Origin', ['http://localhost:3000','https://git.heroku.com/flask-todo-initial.git/'])
   response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
   response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
   response.headers.add('Access-Control-Allow-Credentials', 'true')
@@ -54,8 +63,8 @@ todos_schema=TodoSchema(many=True)
 class UserDetails(Resource):
     def options(self):
         res=make_response()
-        res.headers.add('Access-Control-Allow-Origin','https://git.heroku.com/flask-todo-initial.git')
-        res.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+        # res.headers.add('Access-Control-Allow-Origin',['http://localhost:3000','https://git.heroku.com/flask-todo-initial.git/'])
+        # res.headers.add('Access-Control-Allow-Headers', 'Content-Type')
         res.headers.add('Access-Control-Allow-Methods', 'GET')
         res.headers['Access-Control-Allow-Credentials']= 'true'
         return res
@@ -69,7 +78,7 @@ class UserDetails(Resource):
 
         newuser=User.query.filter_by(email=new_user.email).first()
         res=make_response('Registration Successful',200)
-        res.headers['Access-Control-Allow-Origin']= 'https://git.heroku.com/flask-todo-initial.git'
+        # res.headers['Access-Control-Allow-Origin']= ['http://localhost:3000','https://git.heroku.com/flask-todo-initial.git/']
         res.headers['Access-Control-Allow-Credentials']= 'true'
         return res
 
@@ -79,8 +88,8 @@ class Login(Resource):
 
     def options(self):
         res=make_response()
-        res.headers.add('Access-Control-Allow-Origin','https://git.heroku.com/flask-todo-initial.git')
-        res.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+        # res.headers.add('Access-Control-Allow-Origin',['http://localhost:3000','https://git.heroku.com/flask-todo-initial.git/'])
+        # res.headers.add('Access-Control-Allow-Headers', 'Content-Type')
         res.headers.add('Access-Control-Allow-Methods', 'POST')
         res.headers['Access-Control-Allow-Credentials']= 'true'
         return res
@@ -92,7 +101,7 @@ class Login(Resource):
         if (user and check_password_hash(user.password_hash,login_password)):
             session['user_id']=user.id  
             res=make_response({'user_name':user.name},200) 
-            res.headers.add('Access-Control-Allow-Origin', 'https://git.heroku.com/flask-todo-initial.git')
+            # res.headers.add('Access-Control-Allow-Origin', ['http://localhost:3000','https://git.heroku.com/flask-todo-initial.git/'])
             res.headers.add('Access-Control-Allow-Credentials', 'true')
             
             return res
@@ -107,7 +116,7 @@ class Details(Resource):
             uid=session.get('user_id')
             obj=User.query.get(uid)
             res=make_response({'user_name':obj.name},200)
-            res.headers['Access-Control-Allow-Origin']= 'https://git.heroku.com/flask-todo-initial.git'
+            # res.headers['Access-Control-Allow-Origin']= ['http://localhost:3000','https://git.heroku.com/flask-todo-initial.git/']
             res.headers['Access-Control-Allow-Credentials']= 'true'
             return res   
 api.add_resource(Details,'/details')
@@ -117,8 +126,8 @@ class Logout(Resource):
 
     def options(self):
         res=make_response()
-        res.headers['Access-Control-Allow-Origin']= 'https://git.heroku.com/flask-todo-initial.git'
-        res.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+        # res.headers['Access-Control-Allow-Origin']= ['http://localhost:3000','https://git.heroku.com/flask-todo-initial.git/']
+        # res.headers.add('Access-Control-Allow-Headers', 'Content-Type')
         res.headers.add('Access-Control-Allow-Methods', 'GET')
         return res
 
@@ -126,7 +135,7 @@ class Logout(Resource):
         if 'user_id' in session:
             session.pop('user_id',None)
             res=make_response('Deleted session',200)
-            res.headers['Access-Control-Allow-Origin']= 'https://git.heroku.com/flask-todo-initial.git'
+            # res.headers['Access-Control-Allow-Origin']= ['http://localhost:3000','https://git.heroku.com/flask-todo-initial.git/']
             res.headers['Access-Control-Allow-Credentials']= 'true'
             return res    
         else:
@@ -138,8 +147,8 @@ class Form(Resource):
 
     def options(self):
         res=make_response()
-        res.headers.add('Access-Control-Allow-Origin','https://git.heroku.com/flask-todo-initial.git')
-        res.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+        # res.headers.add('Access-Control-Allow-Origin',['http://localhost:3000','https://git.heroku.com/flask-todo-initial.git/'])
+        # res.headers.add('Access-Control-Allow-Headers', 'Content-Type')
         res.headers.add('Access-Control-Allow-Methods', 'GET,POST')
         res.headers['Access-Control-Allow-Credentials']= 'true'
         return res
@@ -151,12 +160,12 @@ class Form(Resource):
             data=obj.todo          
             body=todos_schema.dumps(data)     
             res=make_response(body,200)  
-            res.headers['Access-Control-Allow-Origin']= 'https://git.heroku.com/flask-todo-initial.git'
+            # res.headers['Access-Control-Allow-Origin']= ['http://localhost:3000','https://git.heroku.com/flask-todo-initial.git/']
             res.headers['Access-Control-Allow-Credentials']= 'true'
             return res
         else:
             res=make_response('Not Authorized',401)
-            res.headers['Access-Control-Allow-Origin']= 'https://git.heroku.com/flask-todo-initial.git'
+            # res.headers['Access-Control-Allow-Origin']= ['http://localhost:3000','https://git.heroku.com/flask-todo-initial.git/']
             res.headers['Access-Control-Allow-Credentials']= 'true'
             return res
 
@@ -168,12 +177,12 @@ class Form(Resource):
             db.session.commit()
             body=todo_schema.dumps(new_todo)
             res=make_response(body,200)  
-            res.headers['Access-Control-Allow-Origin']= 'https://git.heroku.com/flask-todo-initial.git'
+            # res.headers['Access-Control-Allow-Origin']= ['http://localhost:3000','https://git.heroku.com/flask-todo-initial.git/']
             res.headers['Access-Control-Allow-Credentials']= 'true'
             return res
         else:
             res=make_response('Not Authorized',401)
-            res.headers['Access-Control-Allow-Origin']= 'https://git.heroku.com/flask-todo-initial.git'
+            # res.headers['Access-Control-Allow-Origin']= ['http://localhost:3000','https://git.heroku.com/flask-todo-initial.git/']
             res.headers['Access-Control-Allow-Credentials']= 'true'
             return res
     
@@ -183,8 +192,8 @@ class FormId(Resource):
 
     def options(self,todo_id):
         res=make_response()
-        res.headers['Access-Control-Allow-Origin']= 'https://git.heroku.com/flask-todo-initial.git'
-        res.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+        # res.headers['Access-Control-Allow-Origin']= ['http://localhost:3000','https://git.heroku.com/flask-todo-initial.git/']
+        # res.headers.add('Access-Control-Allow-Headers', 'Content-Type')
         res.headers.add('Access-Control-Allow-Methods', 'GET,PUT,DELETE')
         res.headers['Access-Control-Allow-Credentials']= 'true'
         return res
@@ -194,11 +203,11 @@ class FormId(Resource):
             todo=Todo.query.get_or_404(todo_id)
             body= todo_schema.dumps(todo)
             res=make_response(body,200)  
-            res.headers['Access-Control-Allow-Origin']= 'https://git.heroku.com/flask-todo-initial.git'
+            # res.headers['Access-Control-Allow-Origin']= ['http://localhost:3000','https://git.heroku.com/flask-todo-initial.git/']
             res.headers['Access-Control-Allow-Credentials']= 'true'
         else:
             res=make_response('Not Authorized',401)
-            res.headers['Access-Control-Allow-Origin']= 'https://git.heroku.com/flask-todo-initial.git'
+            # res.headers['Access-Control-Allow-Origin']= ['http://localhost:3000','https://git.heroku.com/flask-todo-initial.git/']
             res.headers['Access-Control-Allow-Credentials']= 'true'        
             return res
 
@@ -210,12 +219,12 @@ class FormId(Resource):
             db.session.commit()
             body= todo_schema.dumps(todo)
             res=make_response(body,200)  
-            res.headers['Access-Control-Allow-Origin']= 'https://git.heroku.com/flask-todo-initial.git'
+            # res.headers['Access-Control-Allow-Origin']= ['http://localhost:3000','https://git.heroku.com/flask-todo-initial.git/']
             res.headers['Access-Control-Allow-Credentials']= 'true'
             return res
         else:
             res=make_response('Not Authorized',401)
-            res.headers['Access-Control-Allow-Origin']= 'https://git.heroku.com/flask-todo-initial.git'
+            # res.headers['Access-Control-Allow-Origin']= ['http://localhost:3000','https://git.heroku.com/flask-todo-initial.git/']
             res.headers['Access-Control-Allow-Credentials']= 'true'        
             return res
 
@@ -225,12 +234,12 @@ class FormId(Resource):
             db.session.delete(todo)
             db.session.commit()
             res=make_response('Data Deleted',204)
-            res.headers['Access-Control-Allow-Origin']= 'https://git.heroku.com/flask-todo-initial.git'
+            # res.headers['Access-Control-Allow-Origin']= ['http://localhost:3000','https://git.heroku.com/flask-todo-initial.git/']
             res.headers['Access-Control-Allow-Credentials']= 'true'
             return res
         else:
             res=make_response('Not Authorized',401)
-            res.headers['Access-Control-Allow-Origin']= 'https://git.heroku.com/flask-todo-initial.git'
+            # res.headers['Access-Control-Allow-Origin']= ['http://localhost:3000','https://git.heroku.com/flask-todo-initial.git/']
             res.headers['Access-Control-Allow-Credentials']= 'true'        
             return res
 
