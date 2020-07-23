@@ -39,7 +39,7 @@ def after_request(response):
   response.headers.add('Access-Control-Allow-Credentials', 'true')
   return response"""
 
-app.route('/')
+app.route('https://flask-todo-initial.herokuapp.com/')
 def start():
     return app.send_static_file('index.html')
 class User(db.Model):
