@@ -9,7 +9,7 @@ import os
 from flask_cors import CORS
 
 
-app=Flask(__name__,static_folder='./build',static_url_path='https://flask-todo-initial.herokuapp.com')
+app=Flask(__name__,static_folder='./build',static_url_path='/https://flask-todo-initial.herokuapp.com')
 app.debug=True
 manager = Manager(app)
 cors = CORS(app, origin=['http://localhost:3000','https://flask-todo-initial.herokuapp.com/'])
