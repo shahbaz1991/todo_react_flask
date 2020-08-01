@@ -19,9 +19,9 @@ app.config['SECRET_KEY']=os.environ.get('SECRET_KEY') or \
                         b'\xcf\x1c\xaa\xfb\x91\x92\x95q\xb7\xa7\xd4\xc4\x9e\xe9\xe0\x89'
 #b'\xcf\x1c\xaa\xfb\x91\x92\x95q\xb7\xa7\xd4\xc4\x9e\xe9\xe0\x89'
 app.config['SQLALCHEMY_DATABASE_URI']=os.environ.get('DATABASE_URL') or \
-                                    'mysql+pymysql://root:rootpassword@localhost/newtodo_db'
+                                    'mysql+pymysql://todoinitial:poploverr@123@db4free.net:3306/databaseinitial'
 
-#'mysql+pymysql://sql12356392:HS1jA6Eysv@ sql12.freemysqlhosting.net:3306/sql12356392'
+#'mysql+pymysql://todoinitial:poploverr@123@db4free.net:3306/databaseinitial'
 # 'mysql+pymysql://root:rootpassword@localhost/newtodo_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 db=SQLAlchemy(app)
