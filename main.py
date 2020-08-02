@@ -12,7 +12,7 @@ from flask_cors import CORS
 app=Flask(__name__,static_folder='./build',static_url_path='/https://flask-todo-initial.herokuapp.com')
 app.debug=True
 manager = Manager(app)
-cors = CORS(app, origin=['http://localhost:3000','https://flask-todo-initial.herokuapp.com/'])
+cors = CORS(app, origin=['http://localhost:3000','https://flask-todo-initial.herokuapp.com'])
 #basedir=os.path.abspath(os.path.dirname(__file__))
 # os.environ.get('SECRET_KEY')
 app.config['SECRET_KEY']=os.environ.get('SECRET_KEY') or \
@@ -42,6 +42,7 @@ def after_request(response):
 app.route('/https://flask-todo-initial.herokuapp.com')
 def start():
     return app.send_static_file('index.html')
+    
 class User(db.Model):
     id=db.Column(db.Integer,primary_key=True)
     name=db.Column(db.String(50),nullable=False, unique=True)
