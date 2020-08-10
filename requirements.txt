@@ -39,7 +39,7 @@ pylint==1.9.5
 pylint-flask==0.6
 pylint-plugin-utils==0.6
 PyMySQL==0.9.3
-pyodbc==4.0.17
+# pyodbc==4.0.17
 # pysqlite==2.7.0
 python-dotenv==0.13.0
 pyxdg==0.25
