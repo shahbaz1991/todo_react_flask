@@ -1,1 +1,1 @@
-web: python3 main.py runserver
+web: python3 main.py 

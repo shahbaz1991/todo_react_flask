@@ -11,6 +11,7 @@ from flask_cors import CORS
 
 app=Flask(__name__,static_folder='./build',static_url_path='/https://flask-todo-initial.herokuapp.com')
 app.debug=True
+app.debug=False
 manager = Manager(app)
 cors = CORS(app, origin=['http://localhost:3000','https://flask-todo-initial.herokuapp.com'])
 #basedir=os.path.abspath(os.path.dirname(__file__))
@@ -248,4 +249,4 @@ class FormId(Resource):
 api.add_resource(FormId,'/todo/<int:todo_id>')
 
 if __name__ == "__main__":
-    manager.run()
+    app.run()
