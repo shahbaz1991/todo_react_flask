@@ -248,4 +248,4 @@ class FormId(Resource):
 api.add_resource(FormId,'/todo/<int:todo_id>')
 
 if __name__ == "__main__":
-    app.run()
+    manager.run()
