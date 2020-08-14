@@ -1,6 +1,6 @@
 from flask import Flask,jsonify,url_for,request,make_response,session
 from flask_sqlalchemy import SQLAlchemy
-from flask_script import Manager
+# from flask_script import Manager
 from flask_restful import Api,Resource
 from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate, MigrateCommand
