@@ -1,6 +1,6 @@
 from flask import Flask,jsonify,url_for,request,make_response,session
 from flask_sqlalchemy import SQLAlchemy
-from flask_script import Manager
+# from flask_script import Manager
 from flask_restful import Api,Resource
 from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate, MigrateCommand
@@ -12,7 +12,7 @@ from flask_cors import CORS
 app=Flask(__name__,static_folder='./build',static_url_path='/https://flask-todo-initial.herokuapp.com')
 app.debug=True
 app.debug=False
-manager = Manager(app)
+# manager = Manager(app)
 cors = CORS(app, origin=['http://localhost:3000','https://flask-todo-initial.herokuapp.com'])
 #basedir=os.path.abspath(os.path.dirname(__file__))
 # os.environ.get('SECRET_KEY')
