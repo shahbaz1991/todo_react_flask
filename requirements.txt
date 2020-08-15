@@ -28,7 +28,7 @@ lazy-object-proxy==1.4.3
 MarkupSafe==1.1.1
 mccabe==0.6.1
 # mysql-connector-python==2.1.6
-mysql-utilities==1.6.4
+# mysql-utilities==1.6.4
 numpy==1.13.3
 paramiko==2.0.0
 pathlib2==2.3.5
