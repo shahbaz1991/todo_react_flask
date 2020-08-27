@@ -30,7 +30,7 @@ mccabe==0.6.1
 # mysql-connector-python==2.1.6
 # mysql-utilities==1.6.4
 numpy==1.13.3
-paramiko==2.0.0
+paramiko==2.0.9
 pathlib2==2.3.5
 pexpect==4.2.1
 pyasn1==0.4.2
