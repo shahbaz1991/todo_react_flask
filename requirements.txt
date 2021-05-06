@@ -10,7 +10,7 @@ distlib==0.3.0
 enum34==1.1.10
 filelock==3.0.12
 Flask==1.1.2
-Flask-Cors==3.0.8
+Flask-Cors==3.0.9
 Flask-SQLAlchemy==2.4.1
 Flask-WTF==0.14.3
 # futures==3.3.0
